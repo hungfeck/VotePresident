@@ -119,7 +119,6 @@ var chart =	Highcharts.chart('highchart', {
 	});
 
 	$('.voting').click(function(){
-		socket.emit('voted',{"name":"Hillary Clinton"});
 		if(this.id == "clintonvote")
 		{
 			socket.emit('voted',{"name":"Hillary Clinton"});
