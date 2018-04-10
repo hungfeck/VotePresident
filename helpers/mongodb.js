@@ -22,7 +22,6 @@ class ManageMogodb{
             if (err) throw err;
             else{
                 var dbo = db.db("vote");
-                console.log(data.name);
                 dbo.collection('voting2018').update({"name":data.name}, { $inc: { value: 1 }});
                 callback();
             }
