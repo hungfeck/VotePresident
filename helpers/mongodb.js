@@ -2,7 +2,7 @@ const MongoClient  = require('mongodb').MongoClient ;
 
 class ManageMogodb{
     constructor(){
-        this.url = "mongodb://10.103.18.35:27017/";
+        this.url = "mongodb://demo:demo@ds139459.mlab.com:39459/votingdb";
     }
 
     GetData(callback) {
@@ -12,7 +12,8 @@ class ManageMogodb{
                 throw err;
             }
             else{
-                var dbo = db.db("vote");
+                // var dbo = db.db("vote");
+                var dbo = db.db("votingdb");
                 dbo.collection('voting2018').find().toArray( (err,item)=>{
                     callback(item);
                 });
@@ -25,7 +26,7 @@ class ManageMogodb{
         MongoClient.connect(this.url, (err, db)=>{
             if (err) throw err;
             else{
-                var dbo = db.db("vote");
+                var dbo = db.db("votingdb");
                 dbo.collection('voting2018').update({"name":data.name}, { $inc: { value: 1 }});
                 callback();
             }
