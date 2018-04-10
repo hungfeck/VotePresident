@@ -1,0 +1,20 @@
+{
+  "name": "vote",
+  "version": "1.0.0",
+  "description": "Voting president result",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "vote"
+  ],
+  "author": "hungfeck_Innovation and Technology Team",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3",
+    "http": "0.0.0",
+    "mongodb": "^3.0.6",
+    "socketio": "^1.0.0"
+  }
+}
