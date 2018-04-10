@@ -81,7 +81,7 @@ var chart =	Highcharts.chart('highchart', {
 					distance: 10,
 					color: 'black',
 					formatter: function () {
-						return  Highcharts.numberFormat(this.y, 0) + ' <b>:</b> ' + Highcharts.numberFormat(this.percentage, 2) + ' %';
+						return   Highcharts.numberFormat(this.percentage, 2) + ' %'+' ('+Highcharts.numberFormat(this.y, 0)+')';
 				}
 				}
 			}
