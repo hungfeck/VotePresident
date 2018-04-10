@@ -42,3 +42,58 @@
 
 </html>
 
+$(document).ready(function(){
+	var dataDefault = [
+				['Hillary Clinton', 0],
+				['Donald Trump', 0]
+			]
+	var chart =	Highcharts.chart('', {
+		chart: {
+			plotBackgroundColor: null,
+			plotBorderWidth: 0,
+			plotShadow: false
+		},
+		colors: [ '#419bf4','#f44242'],
+		title: {
+			text: '<br>Vote President<br>',
+			align: 'center',
+			verticalAlign: 'top',
+			y: 10,
+			x : 0
+		},
+		tooltip: {
+			formatter: function () {
+                        return '<b>' + this.point.name + '</b>:<br>' + Highcharts.numberFormat(this.y, 0) + ' <b>:</b> ' + Highcharts.numberFormat(this.percentage, 2) + ' %';
+                    }
+		},
+		credits: {
+			enabled: false
+		},
+		plotOptions: {
+			pie: {
+				size:'90%',
+				center:['50%','60%'],
+				allowPointSelect: true,
+				cursor: 'pointer',
+				showInLegend: true,
+				dataLabels: {
+					enabled: true,
+					distance: 10,
+					color: 'black',
+					formatter: function () {
+						return   Highcharts.numberFormat(this.percentage, 2) + ' %'+' ('+Highcharts.numberFormat(this.y, 0)+')';
+				}
+				}
+			}
+		},
+		series: [{
+			type: 'pie',
+			name: 'Browser share',
+			innerSize: '50%',
+			data: dataDefault
+		}]
+	});
+
+
+</script>
+
