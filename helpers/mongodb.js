@@ -7,13 +7,17 @@ class ManageMogodb{
 
     GetData(callback) {
         MongoClient.connect(this.url, (err, db)=>{
-            if (err) throw err;
+            if (err) 
+            {
+                throw err;
+            }
             else{
                 var dbo = db.db("vote");
                 dbo.collection('voting2018').find().toArray( (err,item)=>{
                     callback(item);
                 });
             }
+            db.close();
         })
     }
 
@@ -25,7 +29,7 @@ class ManageMogodb{
                 dbo.collection('voting2018').update({"name":data.name}, { $inc: { value: 1 }});
                 callback();
             }
-
+            db.close();
         })
     }
 
