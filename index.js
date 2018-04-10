@@ -10,19 +10,19 @@ app.use(express.static(__dirname +'/public'));
 io.on('connection', function (socket) {
     console.log('An user connection');
     var dataDefault = helper.GetData((data)=>{
-        socket.emit("dataDefault", data);
+        io.to(socket.id).emit("dataDefault", data);
     });
 
     socket.on('voted', function (data) {
         var updateData = helper.Vote(data,(ret)=>{  
             var data = helper.GetData((data)=>{
-                socket.emit("dataChange", data);
+                io.emit("dataChange", data);
             });
         });
     });
+
+
   });
-
-
 
 server.listen(port, function(){
     console.log("Server listen port "+port);

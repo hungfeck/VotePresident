@@ -48,11 +48,18 @@ $(document).ready(function(){
 			plotBorderWidth: 0,
 			plotShadow: false
 		},
+		colors: ['#f44242', '#419bf4'],
 		title: {
-			text: '<br>Voting<br>President',
-			align: 'center',
-			verticalAlign: 'middle',
-			y: 0
+			text: '<br>Voting<br>President'
+			// align: 'center',
+			// verticalAlign: 'middle',
+			// y: 0
+		},
+		legend :{
+			align : 'top',
+			title : {
+				text : 'Vote President'
+			}
 		},
 		tooltip: {
 			pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -64,7 +71,7 @@ $(document).ready(function(){
 					distance: 10,
 					style: {
 						fontWeight: 'bold',
-						color: 'white'
+						color: 'red'
 					}
 				},
 				startAngle: -90,
@@ -76,6 +83,7 @@ $(document).ready(function(){
 			type: 'pie',
 			name: 'Browser share',
 			innerSize: '50%',
+			color: '#FF0000',
 			data: [
 				['Chrome', 58.9],
 				['Firefox', 13.29]

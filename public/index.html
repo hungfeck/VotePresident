@@ -44,8 +44,8 @@
 <script>
 $(document).ready(function(){
 	var dataDefault = [
-				['Hillary Clinton', 3],
-				['Donald Trump', 3]
+				['Hillary Clinton', 0],
+				['Donald Trump', 0]
 			]
 var chart =	Highcharts.chart('highchart', {
 		chart: {
@@ -53,15 +53,15 @@ var chart =	Highcharts.chart('highchart', {
 			plotBorderWidth: 0,
 			plotShadow: false
 		},
+		colors: [ '#419bf4','#f44242'],
 		title: {
-			text: '',
-			// <br>Voting<br>President'
+			text: '<br>Vote President<br>',
 			align: 'center',
-			verticalAlign: 'middle',
-			y: 0
+			verticalAlign: 'top',
+			y: 10,
+			x : 0
 		},
 		tooltip: {
-			// pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
 			formatter: function () {
                         return '<b>' + this.point.name + '</b>:<br>' + Highcharts.numberFormat(this.y, 0) + ' <b>:</b> ' + Highcharts.numberFormat(this.percentage, 2) + ' %';
                     }
@@ -71,32 +71,20 @@ var chart =	Highcharts.chart('highchart', {
 		},
 		plotOptions: {
 			pie: {
-				size:'70%',
-				center:['50%','50%'],
+				size:'90%',
+				center:['50%','60%'],
 				allowPointSelect: true,
 				cursor: 'pointer',
+				showInLegend: true,
 				dataLabels: {
 					enabled: true,
 					distance: 10,
 					color: 'black',
 					formatter: function () {
-						return '<b>' + this.point.name + '</b>:<br>' + Highcharts.numberFormat(this.y, 0) + ' <b>:</b> ' + Highcharts.numberFormat(this.percentage, 2) + ' %';
+						return  Highcharts.numberFormat(this.y, 0) + ' <b>:</b> ' + Highcharts.numberFormat(this.percentage, 2) + ' %';
 				}
 				}
 			}
-// pie: {
-			// 	dataLabels: {
-			// 		enabled: true,
-			// 		distance: 10,
-			// 		style: {
-			// 			fontWeight: 'bold',
-			// 			color: 'white'
-			// 		}
-			// 	},
-			// 	startAngle: -90,
-			// 	endAngle: -90,
-			// 	center: ['50%', '50%']
-			// }
 		},
 		series: [{
 			type: 'pie',
@@ -109,6 +97,7 @@ var chart =	Highcharts.chart('highchart', {
 	var socket = io.connect('http://localhost:3003');
 
 	socket.on('dataDefault', function(data){
+		console.log('dataDefault' + JSON.stringify(data));
 		var newData = [
 				['Hillary Clinton', data[0].value],
 				['Donald Trump', data[1].value]
@@ -130,6 +119,7 @@ var chart =	Highcharts.chart('highchart', {
 	});
 
 	$('.voting').click(function(){
+		socket.emit('voted',{"name":"Hillary Clinton"});
 		if(this.id == "clintonvote")
 		{
 			socket.emit('voted',{"name":"Hillary Clinton"});

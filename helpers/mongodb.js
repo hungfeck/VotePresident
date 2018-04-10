@@ -2,7 +2,7 @@ const MongoClient  = require('mongodb').MongoClient ;
 
 class ManageMogodb{
     constructor(){
-        this.url = "mongodb://localhost:27017/";
+        this.url = "mongodb://10.103.18.35:27017/";
     }
 
     GetData(callback) {

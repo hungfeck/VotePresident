@@ -20,7 +20,7 @@
     <img class="img-responsive" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/hil.gif" alt="">
     <div class="overlay">
       <h2>Hillary Clinton</h2>
-	  <p><a href="#" class="clintonvote voting">VOTE</a></p> 
+	  <p><a href="#" class="voting" id="clintonvote">VOTE</a></p> 
     </div>
   </div>
 </div>
@@ -30,7 +30,7 @@
     <img class="img-responsive" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/tru.gif" alt="">
     <div class="overlay">
       <h2>Donald Trump</h2>
-	  <p class="trumpvote voting"><a href="#" >VOTE</a></p> 
+	  <p ><a href="#" class="voting" id="trumpvote" >VOTE</a></p> 
     </div>
   </div>
 </div>
@@ -42,56 +42,91 @@
 
 </html>
 <script>
-$(document).ready(function(){
-	Highcharts.chart('highchart', {
+
+	var dataDefault = [
+				['Hillary Clinton', 0],
+				['Donald Trump', 0]
+			]
+var chart =	Highcharts.chart('highchart', {
 		chart: {
 			plotBackgroundColor: null,
 			plotBorderWidth: 0,
 			plotShadow: false
 		},
+		colors: [ '#419bf4','#f44242'],
 		title: {
-			text: '<br>Voting<br>President',
+			text: '<br>Vote President<br>',
 			align: 'center',
-			verticalAlign: 'middle',
-			y: 0
+			verticalAlign: 'top',
+			y: 10,
+			x : 0
 		},
 		tooltip: {
-			pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+			formatter: function () {
+                        return '<b>' + this.point.name + '</b>:<br>' + Highcharts.numberFormat(this.y, 0) + ' <b>:</b> ' + Highcharts.numberFormat(this.percentage, 2) + ' %';
+                    }
+		},
+		credits: {
+			enabled: false
 		},
 		plotOptions: {
 			pie: {
+				size:'90%',
+				center:['50%','60%'],
+				allowPointSelect: true,
+				cursor: 'pointer',
+				showInLegend: true,
 				dataLabels: {
 					enabled: true,
 					distance: 10,
-					style: {
-						fontWeight: 'bold',
-						color: 'white'
-					}
-				},
-				startAngle: -90,
-				endAngle: -90,
-				center: ['50%', '50%']
+					color: 'black',
+					formatter: function () {
+						return  Highcharts.numberFormat(this.y, 0) + ' <b>:</b> ' + Highcharts.numberFormat(this.percentage, 2) + ' %';
+				}
+				}
 			}
 		},
 		series: [{
 			type: 'pie',
 			name: 'Browser share',
 			innerSize: '50%',
-			data: [
-				['Chrome', 58.9],
-				['Firefox', 13.29]
-			]
+			data: dataDefault
 		}]
 	});
 
 	var socket = io.connect('http://localhost:3003');
 
+	socket.on('dataDefault', function(data){
+		console.log('dataDefault' + JSON.stringify(data));
+		var newData = [
+				['Hillary Clinton', data[0].value],
+				['Donald Trump', data[1].value]
+			]
+		chart.series[0].update({
+        data : newData
+    });
+	});
+
 	socket.on('dataChange', function(data){
-		console.log('data changed');
+		console.log('data changed '+JSON.stringify(data));
+		var newData = [
+				['Hillary Clinton', data[0].value],
+				['Donald Trump', data[1].value]
+			]
+		chart.series[0].update({
+        data : newData
+    });
 	});
 
 	$('.voting').click(function(){
-		console.log('voted');
+		socket.emit('voted',{"name":"Hillary Clinton"});
+		if(this.id == "clintonvote")
+		{
+			socket.emit('voted',{"name":"Hillary Clinton"});
+		}
+		else{
+			socket.emit('voted',{"name":"Donald Trump"});
+		}
 	});
 
 });
