@@ -12,7 +12,6 @@ class ManageMogodb{
                 throw err;
             }
             else{
-                // var dbo = db.db("vote");
                 var dbo = db.db("votingdb");
                 dbo.collection('voting2018').find().toArray( (err,item)=>{
                     callback(item);
